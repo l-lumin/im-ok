@@ -1,0 +1,254 @@
+/* Base Reset & Fonts */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #eef2f3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: #212529;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+/* Utilities (Bootstrap Replacements) */
+.mb-3 { margin-bottom: 1rem !important; }
+.mt-3 { margin-top: 1rem !important; }
+.mt-4 { margin-top: 1.5rem !important; }
+.text-start { text-align: left !important; }
+.text-center { text-align: center !important; }
+.text-muted { color: #6c757d !important; }
+.small { font-size: 0.875em; }
+.fw-bold { font-weight: 700 !important; }
+.text-success { color: #198754 !important; }
+.text-danger { color: #dc3545 !important; }
+
+/* Grid System (Bootstrap Replacements) */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0;
+    margin-right: -0.75rem; /* Gutter compensation */
+    margin-left: -0.75rem;
+}
+
+.col-6 {
+    flex: 0 0 auto;
+    width: 50%;
+    padding-right: 0.75rem; /* Gutter width */
+    padding-left: 0.75rem;
+}
+
+/* Input Group */
+.input-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Forms (Bootstrap Replacements) */
+.form-label {
+    margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Buttons (Bootstrap Replacements + Custom Brand) */
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.375rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn:disabled {
+    pointer-events: none;
+    opacity: 0.65;
+}
+
+/* Component: Card */
+.card {
+    max-width: 400px;
+    width: 100%;
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+}
+
+/* Custom Typography & Elements */
+h1 {
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #7f8c8d;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+/* The "I'm OK" Brand Button - Overrides .btn base if needed */
+.btn-brand {
+    background-color: #2ecc71;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 15px 30px;
+    border-radius: 50px;
+    border: none; /* Reset base btn border */
+    width: 100%;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+}
+
+.btn-brand:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+    color: white; /* Ensure text color stays white */
+}
+
+.btn-brand:disabled {
+    background-color: #95a5a6;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Checkbox (Bootstrap Replacements) */
+.form-check {
+    display: flex;
+    align-items: flex-start; /* Align check with top line of text */
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+.form-check-input {
+    flex: 0 0 auto; /* Prevent shrinking */
+    width: 1em;
+    height: 1em;
+    margin-top: 0.25em; /* Optical alignment */
+    margin-right: 0.5em;
+    vertical-align: top;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 1px solid #ced4da;
+    border-radius: 0.25em;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.form-check-input:checked {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+}
+
+.form-check-label {
+    font-size: 0.75rem;
+    color: #6c757d;
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+/* Language Selector */
+.lang-select {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    background: #fff;
+    color: #6c757d;
+    cursor: pointer;
+}
+
+/* Subtle Pulse Animation */
+.icon-pulse {
+    font-size: 3rem;
+    color: #2ecc71;
+    margin-bottom: 1rem;
+    display: block; /* Ensure it behaves like a block for stacking */
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
+}

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm OK - Daily Safety Check</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="card">
+        <select id="langSelector" class="lang-select">
+            <option value="en">🇺🇸 EN</option>
+            <option value="ja">🇯🇵 JA</option>
+            <option value="vi">🇻🇳 VI</option>
+            <option value="es">🇪🇸 ES</option>
+        </select>
+        <div class="icon-pulse">♥</div>
+        <h1 data-i18n="title">I'm OK</h1>
+        <p class="subtitle" data-i18n="subtitle">Set up your daily safety monitor.</p>
+
+        <form id="setupForm">
+            <div class="mb-3 text-start">
+                <label class="form-label small text-muted" data-i18n="label_email">YOUR EMAIL</label>
+                <input type="email" id="owner" class="form-control" placeholder="you@email.com" required>
+            </div>
+            <div class="mb-3 text-start">
+                <label class="form-label small text-muted" data-i18n="label_contact">CONTACT EMAIL</label>
+                <input type="email" id="subscriber" class="form-control" placeholder="trusted_friend@email.com"
+                    required>
+            </div>
+            <div class="row">
+                <div class="col-6 mb-3 text-start">
+                    <label class="form-label small text-muted" data-i18n="label_timeout">TIMEOUT</label>
+                    <div class="input-group">
+                        <input type="number" id="timeoutValue" class="form-control" value="24" min="1" required
+                            style="flex: 1;">
+                        <select id="timeoutUnit" class="form-control"
+                            style="width: auto; flex: 0 0 auto; min-width: 80px;">
+                            <option value="1" data-i18n="unit_hrs">Hrs</option>
+                            <option value="24" data-i18n="unit_days">Days</option>
+                            <option value="168" data-i18n="unit_wks">Wks</option>
+                            <option value="720" data-i18n="unit_mos">Mos</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6 mb-3 text-start">
+                    <label class="form-label small text-muted" data-i18n="label_secret">SECRET CODE</label>
+                    <input type="password" id="secret" class="form-control" required>
+                </div>
+            </div>
+
+            <p class="small text-muted mb-2" data-i18n="text_tos" style="font-size: 0.7rem;">
+                This service is provided 'as-is' without warranty. Do not rely on this as your sole safety method.
+            </p>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="tosCheck" required>
+                <label class="form-check-label" for="tosCheck" data-i18n="label_agree">
+                    I agree to the Terms of Service
+                </label>
+            </div>
+
+            <button type="submit" id="btnSubmit" class="btn btn-brand mt-3" data-i18n="btn_start" disabled>Start
+                Monitoring</button>
+        </form>
+
+        <div id="message" class="mt-4 small"></div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        // Replace this with your actual Cloud Run URL
+        // const API_URL = "http://localhost:8080";
+        const API_URL = "https://im-ok-253481026994.asia-northeast1.run.app";
+
+        // --- I18N CONFIGURATION ---
+        const translations = {
+            en: {
+                title: "I'm OK",
+                subtitle: "Set up your daily safety monitor.",
+                label_email: "YOUR EMAIL",
+                label_contact: "CONTACT EMAIL",
+                label_timeout: "TIMEOUT",
+                label_secret: "SECRET CODE",
+                btn_start: "Start Monitoring",
+                btn_setting: "Setting up...",
+                msg_success: "✔ Setup Complete!",
+                msg_server_err: "✖ Server unreachable.",
+                unit_hrs: "Hrs",
+                unit_days: "Days",
+                unit_wks: "Wks",
+                unit_mos: "Mos",
+                text_tos: "This service is provided 'as-is' without warranty. Do not rely on this as your sole safety method.",
+                label_agree: "I agree to the Terms of Service"
+            },
+            ja: {
+                title: "I'm OK",
+                subtitle: "毎日の安否確認を設定します。",
+                label_email: "あなたのメール",
+                label_contact: "連絡先メール",
+                label_timeout: "タイムアウト",
+                label_secret: "暗証コード",
+                btn_start: "監視を開始",
+                btn_setting: "設定中...",
+                msg_success: "✔ 設定完了！",
+                msg_server_err: "✖ サーバーに接続できません。",
+                unit_hrs: "時間",
+                unit_days: "日",
+                unit_wks: "週",
+                unit_mos: "ヶ月",
+                text_tos: "本サービスは「現状有姿」で提供され、いかなる保証もありません。唯一の安全手段として依存しないでください。",
+                label_agree: "利用規約に同意します"
+            },
+            vi: {
+                title: "I'm OK",
+                subtitle: "Thiết lập giám sát an toàn hàng ngày.",
+                label_email: "EMAIL CỦA BẠN",
+                label_contact: "EMAIL LIÊN HỆ",
+                label_timeout: "THỜI GIAN CHỜ",
+                label_secret: "MÃ BÍ MẬT",
+                btn_start: "Bắt đầu giám sát",
+                btn_setting: "Đang thiết lập...",
+                msg_success: "✔ Thiết lập hoàn tất!",
+                msg_server_err: "✖ Không thể kết nối máy chủ.",
+                unit_hrs: "Giờ",
+                unit_days: "Ngày",
+                unit_wks: "Tuần",
+                unit_mos: "Tháng",
+                text_tos: "Dịch vụ này được cung cấp 'nguyên trạng' mà không có bảo hành. Đừng dựa vào đây như là phương pháp an toàn duy nhất của bạn.",
+                label_agree: "Tôi đồng ý với Điều khoản dịch vụ"
+            },
+            es: {
+                title: "I'm OK",
+                subtitle: "Configura tu monitor de seguridad diario.",
+                label_email: "TU CORREO",
+                label_contact: "CORREO DE CONTACTO",
+                label_timeout: "TIEMPO DE ESPERA",
+                label_secret: "CÓDIGO SECRETO",
+                btn_start: "Iniciar Monitoreo",
+                btn_setting: "Configurando...",
+                msg_success: "✔ ¡Configuración Completa!",
+                msg_server_err: "✖ Servidor inalcanzable.",
+                unit_hrs: "Hrs",
+                unit_days: "Días",
+                unit_wks: "Sem",
+                unit_mos: "Mes",
+                text_tos: "Este servicio se proporciona 'tal cual' sin garantía. No confíe en esto como su único método de seguridad.",
+                label_agree: "Acepto los Términos de Servicio"
+            }
+        };
+
+        const langSelector = document.getElementById('langSelector');
+        let currentLang = 'en';
+
+        function updateLanguage(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+
+            // Update Text Elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) {
+                    el.innerText = t[key];
+                }
+            });
+        }
+
+        langSelector.addEventListener('change', (e) => {
+            updateLanguage(e.target.value);
+        });
+
+        // Initialize
+        updateLanguage('en');
+
+        // ToS Checkbox Logic
+        const tosCheck = document.getElementById('tosCheck');
+        const btnSubmit = document.getElementById('btnSubmit');
+
+        tosCheck.addEventListener('change', (e) => {
+            btnSubmit.disabled = !e.target.checked;
+        });
+
+        document.getElementById('setupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const msg = document.getElementById('message');
+            // const btn = e.target.querySelector('button'); // Don't re-select since we have ID
+            const t = translations[currentLang];
+
+            msg.innerText = "";
+            btnSubmit.disabled = true;
+            btnSubmit.innerText = t.btn_setting;
+
+            const payload = {
+                owner: document.getElementById('owner').value,
+                subscriber: document.getElementById('subscriber').value,
+                hours: parseInt(document.getElementById('timeoutValue').value) * parseInt(document.getElementById('timeoutUnit').value),
+                secret: document.getElementById('secret').value,
+                language: currentLang
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/api/setup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    msg.innerHTML = `<span class="text-success fw-bold">${t.msg_success}</span>`;
+                    e.target.reset();
+                    // Reset to default values if needed, or keep last state
+                    document.getElementById('timeoutValue').value = "24";
+                    document.getElementById('timeoutUnit').value = "1";
+                } else {
+                    msg.innerHTML = `<span class="text-danger">✖ ${data.error || 'Failed'}</span>`;
+                }
+            } catch (err) {
+                console.error(err);
+                msg.innerHTML = `<span class="text-danger">${t.msg_server_err}</span>`;
+            }
+
+            btnSubmit.disabled = false; // Re-enable because we know checked is true (required passed)
+            // But wait, if we reset form, check is gone?
+            // If success, we reset form, so check is unchecked.
+            if (response.ok) {
+                btnSubmit.disabled = true; // Keep disabled until checked again
+            }
+
+            btnSubmit.innerText = t.btn_start;
+        });
+    </script>
+</body>
+
+</html>
